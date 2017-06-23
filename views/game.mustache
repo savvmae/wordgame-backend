@@ -1,0 +1,18 @@
+<html>
+    <head>
+        
+    </head>
+    <body>
+       <p> {{newWord}}</p>
+      
+
+        <form method="POST" action="/game">
+            <input type="text" name="guess">
+            <button type="submit">Guess</button>
+        </form>
+        <p> {{#currentGuess}} You guessed: {{.}} {{/currentGuess}}</p>
+        <p>Total guessed letters: {{#allGuesses}}  {{.}} {{/allGuesses}}</p>
+       <p> {{#error}} {{.}} {{/error}}</p>
+       
+    </body>
+</html>

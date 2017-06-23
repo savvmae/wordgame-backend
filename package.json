@@ -1,7 +1,6 @@
 {
-  "name": "dynamic-route",
+  "name": "word-game",
   "version": "1.0.0",
-  "description": "",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,7 +9,22 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.2",
     "cookie-parser": "^1.4.3",
-    "express": "^4.15.3"
-  }
+    "express": "^4.15.3",
+    "express-session": "^1.15.3",
+    "express-validator": "^3.2.0",
+    "file-system": "^2.2.2",
+    "mustache-express": "^1.2.4"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/savvmae/default-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/savvmae/default-project/issues"
+  },
+  "homepage": "https://github.com/savvmae/default-project#readme",
+  "description": ""
 }
