@@ -7,12 +7,15 @@
       
 
         <form method="POST" action="/game">
-            <input type="text" name="guess">
+            <input type="text" name="guess" autofocus>
             <button type="submit">Guess</button>
         </form>
-        <p> {{#currentGuess}} You guessed: {{.}} {{/currentGuess}}</p>
-        <p>Total guessed letters: {{#allGuesses}}  {{.}} {{/allGuesses}}</p>
-       <p> {{#error}} {{.}} {{/error}}</p>
-       
+        <p>{{#currentGuess}} You guessed: {{.}} {{/currentGuess}}</p>
+        <p>Incorrect Guess Count: {{guessCount}}</p>
+       <p>{{#error}} {{.}} {{/error}}</p>
+       <h1>The Word contains: </h1>{{#correctGuesses}} <p>{{.}}</p> {{/correctGuesses}}
+       <h1>Incorrect Guesses</h1>{{#incorrectGuesses}} <p> {{.}} </p> {{/incorrectGuesses}}
+       <p>{{newWordArr}}</p>
+
     </body>
 </html>
