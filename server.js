@@ -40,6 +40,10 @@ application.get('/', (request, response) => {
     response.render('index');
 });
 
+application.get('/win', (request, response) => {
+    response.render('win');
+});
+
 application.get('/game', (request, response) => {
 
     request.session.newWord = words[Math.floor(Math.random() * (words.length - 1))];
@@ -66,16 +70,15 @@ application.post('/game', (request, response) => {
         response.render('game', request.session);
     } else {
         request.session.allGuesses.push(request.session.currentGuess);
-
-
         if (request.session.newWordArr.indexOf(request.session.currentGuess) != -1) {
             request.session.correctGuesses.push(request.session.currentGuess);
-            // for (i = 0; i < request.session.newWordArr.length; i++) {
-            //     var index = request.session.newWordArr.indexOf(request.session.currentGuess);
-            //     request.session.newWordArr = request.session.newWordArr.slice(0, index) + request.session.newWordArr.slice(index + 1);
-            // }
-            // this is broken, fix logic
+            evaluateGuess(request.session.newWordArr, request.session.currentGuess);
+            if (request.session.newWordArr.length === 0) {
+                response.redirect('/win');
+            } else {
             response.render('game', request.session);
+            }
+
         } else {
             request.session.incorrectGuesses.push(request.session.currentGuess);
             request.session.guessCount++;
@@ -88,6 +91,14 @@ application.post('/game', (request, response) => {
     }
 });
 
-
+function evaluateGuess(arr, guess) {
+    for (i = 0; i < arr.length; i++) {
+        if (arr.indexOf(guess) != -1) {
+            var index = arr.indexOf(guess);
+            arr.splice(index, 1);
+        }
+    }
+    return arr;
+}
 
 application.listen(3000);
