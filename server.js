@@ -1,5 +1,5 @@
 //need to:
-// FIX LOOP FOR DASHES/LETTER APPEAR!!
+
 // hard mode:
 // let user pick length of word/difficulty
 // win file with images??
@@ -85,7 +85,7 @@ application.post('/game', (request, response) => {
             request.session.correctGuesses.push(request.session.currentGuess);
 
             evaluateGuess(request.session.newWordArr, request.session.currentGuess, request.session.dashes);
-            // letterAppear(request.session.dashes, request.session.appearingLetters, request.session.currentGuess);
+            letterAppear(request.session.dashes, request.session.appearingLetters, request.session.currentGuess);
             //BROKEN
 
             if (request.session.newWordArr.length === 0) {
@@ -123,16 +123,16 @@ function evaluateGuess(arr, guess) {
     return arr;
 }
 
-// function letterAppear(arr1, arr2, guess) {
-//     for (var i = 0; i <= arr1.length; i ++){
-//         if (arr2.indexOf(guess) != -1) {
-//             var index = arr2.indexOf(guess);
-            
-//         }
-//     }
-//     return arr2; 
-// }
-//BROKEN!!! ONLY RUNS FOR FIRST INSTANCE OF GUESSED LETTER IN ARRAY AND CANNOT FIGURE OUT WHY RN
-
+function letterAppear(arr1, arr2, guess) {
+    for (var i = 0; i <= arr1.length; i ++){
+        while (arr2.indexOf(guess) != -1) {
+            var index = arr2.indexOf(guess);
+            arr2.splice(index, 1, "/");
+            arr1.splice(index, 1, guess);
+            console.log(arr1);
+        }
+    }
+    return arr1; 
+}
 
 application.listen(3000);
