@@ -4,12 +4,12 @@
         <link rel="stylesheet" href="/styles.css">
     </head>
     <body>
-        <h1>You win!</h1>
-        <form method="POST" action='/win'>
-        <input type="text" name="name" placeholder="Add your name to the hall of fame" autofocus>
-        <button type="submit">Add</button>  
+        <p class="title center-flex">You win!</p>
+        <form method="POST" action='/win' class="form-styles">
+        <input class="guess" type="text" name="name" placeholder="Add your name to the hall of fame" autofocus>
+        <button class="submit" type="submit">Add</button>  
         </form>
         
-        <a href="/game">Would you like to play again?</a>
+        <a class="title center-flex" href="/game">Would you like to play again?</a>
     </body>
 </html>

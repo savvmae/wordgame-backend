@@ -17,16 +17,11 @@
 
        {{#error}} <p>{{.}} </p>{{/error}}
        <div class="word-wrapper">
-           <div class="word-revealer correct-letters">
-                {{#appearingLetters}}<div class="disappear">{{.}}</div>{{/appearingLetters}}
-           </div>
            <div class="word-revealer dashes">
                {{#dashes}}<div>{{.}}</div>{{/dashes}}
             </div>
+        </div>
        <div class="title">Letters Guessed: {{#allGuesses}} <div> {{.}} </div> {{/allGuesses}}</div>
-
-       </div>
-       {{newWordArr}}
 
     </body>
 </html>

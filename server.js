@@ -1,8 +1,5 @@
 //need to:
-// render length of correct word to game page
-// multiple letters in correct word - doesn't work currently
-//
-//
+// FIX LOOP FOR DASHES/LETTER APPEAR!!
 // hard mode:
 // let user pick length of word/difficulty
 // win file with images??
@@ -63,10 +60,10 @@ application.get('/game', (request, response) => {
     request.session.allGuesses = [];
     request.session.currentGuess = "";
     request.session.dashes = [];
-    for(i = 0; i <= request.session.newWordArr.length; i ++){
+    for (i = 0; i <= (request.session.newWordArr.length - 1); i++) {
         request.session.dashes.push("_");
     }
-    
+
     var newGame = request.session;
     response.render('game', newGame);
 
@@ -86,7 +83,11 @@ application.post('/game', (request, response) => {
         request.session.allGuesses.push(request.session.currentGuess);
         if (request.session.newWordArr.indexOf(request.session.currentGuess) != -1) {
             request.session.correctGuesses.push(request.session.currentGuess);
-            evaluateGuess(request.session.newWordArr, request.session.currentGuess);
+
+            evaluateGuess(request.session.newWordArr, request.session.currentGuess, request.session.dashes);
+            // letterAppear(request.session.dashes, request.session.appearingLetters, request.session.currentGuess);
+            //BROKEN
+
             if (request.session.newWordArr.length === 0) {
 
                 response.redirect('/win');
@@ -113,7 +114,7 @@ application.post('/win', (request, response) => {
 })
 
 function evaluateGuess(arr, guess) {
-    for (i = 0; i < arr.length; i++) {
+    for (var i = 0; i < arr.length; i++) {
         if (arr.indexOf(guess) != -1) {
             var index = arr.indexOf(guess);
             arr.splice(index, 1);
@@ -121,5 +122,17 @@ function evaluateGuess(arr, guess) {
     }
     return arr;
 }
+
+// function letterAppear(arr1, arr2, guess) {
+//     for (var i = 0; i <= arr1.length; i ++){
+//         if (arr2.indexOf(guess) != -1) {
+//             var index = arr2.indexOf(guess);
+            
+//         }
+//     }
+//     return arr2; 
+// }
+//BROKEN!!! ONLY RUNS FOR FIRST INSTANCE OF GUESSED LETTER IN ARRAY AND CANNOT FIGURE OUT WHY RN
+
 
 application.listen(3000);
