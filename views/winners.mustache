@@ -4,6 +4,10 @@
        <link rel="stylesheet" href="/styles.css"> 
     </head>
     <body>
-        <a class="title center-flex" href="/game">Would you like to play a game?</a>
+        <h1>You win!</h1>
+        {{#names}}
+        <p>{{.}}</p>
+        {{/names}}
+        <a href="/game">Would you like to play again?</a>
     </body>
 </html>

@@ -1,21 +1,32 @@
 <html>
     <head>
-        
-    </head>
-    <body>
-       <p> {{newWord}}</p>
-      
-
-        <form method="POST" action="/game">
-            <input type="text" name="guess" autofocus>
-            <button type="submit">Guess</button>
-        </form>
-        <p>{{#currentGuess}} You guessed: {{.}} {{/currentGuess}}</p>
-        <p>Incorrect Guess Count: {{guessCount}}</p>
-       <p>{{#error}} {{.}} {{/error}}</p>
-       <h1>The Word contains: </h1>{{#correctGuesses}} <p>{{.}}</p> {{/correctGuesses}}
-       <h1>Incorrect Guesses</h1>{{#incorrectGuesses}} <p> {{.}} </p> {{/incorrectGuesses}}
+        <link href="https://fonts.googleapis.com/css?family=Frijole" rel="stylesheet">
+       <link rel="stylesheet" href="/styles.css"> 
        
+    </head>
+    <body class="wrapper">
+        <div class="title">
+            <p class="word_game">Word Game</p>
+            <p class="guess_counter">Guesses Remaining: {{guessCount}}</p>
+        </div>
+
+        <form method="POST" action="/game" class="form-styles">
+            <input type="text" name="guess" autofocus class="guess">
+            <button type="submit" class="submit">Guess Letter</button>
+        </form>
+
+       {{#error}} <p>{{.}} </p>{{/error}}
+       <div class="word-wrapper">
+           <div class="word-revealer correct-letters">
+                {{#appearingLetters}}<div class="disappear">{{.}}</div>{{/appearingLetters}}
+           </div>
+           <div class="word-revealer dashes">
+               {{#dashes}}<div>{{.}}</div>{{/dashes}}
+            </div>
+       <div class="title">Letters Guessed: {{#allGuesses}} <div> {{.}} </div> {{/allGuesses}}</div>
+
+       </div>
+       {{newWordArr}}
 
     </body>
 </html>

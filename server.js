@@ -5,7 +5,7 @@
 //
 // hard mode:
 // let user pick length of word/difficulty
-// 
+// win file with images??
 
 const express = require('express');
 const cookieParser = require('cookie-parser');
@@ -14,6 +14,9 @@ const expressValidator = require('express-validator');
 const mustacheExpress = require('mustache-express');
 const session = require('express-session');
 const fs = require('file-system');
+const winners = require('./winners.json');
+
+const filePath = './winners.json';
 
 const application = express();
 
@@ -27,6 +30,7 @@ application.set('view engine', 'mustache');
 
 application.use(bodyParser.urlencoded());
 application.use(expressValidator());
+application.use(express.static(__dirname + '/public'));
 
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
 
@@ -44,15 +48,25 @@ application.get('/win', (request, response) => {
     response.render('win');
 });
 
+application.get('/winners', (request, response) => {
+    response.render('winners')
+});
+
 application.get('/game', (request, response) => {
 
     request.session.newWord = words[Math.floor(Math.random() * (words.length - 1))];
     request.session.newWordArr = request.session.newWord.split("");
-    request.session.guessCount = 0;
+    request.session.appearingLetters = request.session.newWord.split("");
+    request.session.guessCount = 8;
     request.session.correctGuesses = [];
     request.session.incorrectGuesses = [];
     request.session.allGuesses = [];
     request.session.currentGuess = "";
+    request.session.dashes = [];
+    for(i = 0; i <= request.session.newWordArr.length; i ++){
+        request.session.dashes.push("_");
+    }
+    
     var newGame = request.session;
     response.render('game', newGame);
 
@@ -74,15 +88,15 @@ application.post('/game', (request, response) => {
             request.session.correctGuesses.push(request.session.currentGuess);
             evaluateGuess(request.session.newWordArr, request.session.currentGuess);
             if (request.session.newWordArr.length === 0) {
+
                 response.redirect('/win');
             } else {
-            response.render('game', request.session);
+                response.render('game', request.session);
             }
-
         } else {
             request.session.incorrectGuesses.push(request.session.currentGuess);
-            request.session.guessCount++;
-            if (request.session.guessCount >= 8) {
+            request.session.guessCount--;
+            if (request.session.guessCount === 0) {
                 response.render('lost', request.session);
             } else {
                 response.render('game', request.session);
@@ -90,6 +104,13 @@ application.post('/game', (request, response) => {
         }
     }
 });
+
+application.post('/win', (request, response) => {
+    winners.names.push(request.body.name);
+    var winnersJSON = JSON.stringify(winners);
+    fs.writeFile(filePath, winnersJSON, function (err) { });
+    response.render('winners', winners);
+})
 
 function evaluateGuess(arr, guess) {
     for (i = 0; i < arr.length; i++) {
