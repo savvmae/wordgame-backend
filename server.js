@@ -1,5 +1,4 @@
 //need to:
-
 // hard mode:
 // let user pick length of word/difficulty
 // win file with images??
@@ -83,10 +82,8 @@ application.post('/game', (request, response) => {
         request.session.allGuesses.push(request.session.currentGuess);
         if (request.session.newWordArr.indexOf(request.session.currentGuess) != -1) {
             request.session.correctGuesses.push(request.session.currentGuess);
-
             evaluateGuess(request.session.newWordArr, request.session.currentGuess, request.session.dashes);
             letterAppear(request.session.dashes, request.session.appearingLetters, request.session.currentGuess);
-            //BROKEN
 
             if (request.session.newWordArr.length === 0) {
 
@@ -129,7 +126,6 @@ function letterAppear(arr1, arr2, guess) {
             var index = arr2.indexOf(guess);
             arr2.splice(index, 1, "/");
             arr1.splice(index, 1, guess);
-            console.log(arr1);
         }
     }
     return arr1; 
