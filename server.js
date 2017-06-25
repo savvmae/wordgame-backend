@@ -30,6 +30,23 @@ application.use(express.static(__dirname + '/public'));
 
 const words = fs.readFileSync("/usr/share/dict/words", "utf-8").toLowerCase().split("\n");
 
+var easy = [];
+var normal = [];
+var hard = [];
+
+(function determineMode(arr) {
+    for (var i = 0; i < arr.length; i++) {
+        if (arr[i].length <= 6 && arr[i].length >= 4) {
+            easy.push(arr[i]);
+        } else if (arr[i].length <= 8 && arr[i].length <= 7) {
+            normal.push(arr[i]);
+        } else if (arr[i].length > 8) {
+            hard.push(arr[i]);
+        }
+    }
+})(words);
+
+
 application.use(session({
     secret: 'iAmASecret',
     saveUninitialized: true,
@@ -50,7 +67,6 @@ application.get('/winners', (request, response) => {
 
 application.get('/game', (request, response) => {
 
-    request.session.newWord = words[Math.floor(Math.random() * (words.length - 1))];
     request.session.newWordArr = request.session.newWord.split("");
     request.session.appearingLetters = request.session.newWord.split("");
     request.session.guessCount = 8;
@@ -66,6 +82,19 @@ application.get('/game', (request, response) => {
     var newGame = request.session;
     response.render('game', newGame);
 
+});
+
+application.post('/', (request, response) => {
+    if (request.body.mode === '0') {
+        request.session.newWord = easy[Math.floor(Math.random() * (easy.length - 1))];
+    } else if (request.body.mode === '1') {
+        request.session.newWord = normal[Math.floor(Math.random() * (normal.length - 1))];
+    } else if (request.body.mode === '2') {
+        request.session.newWord = hard[Math.floor(Math.random() * (hard.length - 1))];
+    } 
+
+    response.redirect('/game');
+    
 });
 
 application.post('/game', (request, response) => {
@@ -121,14 +150,14 @@ function evaluateGuess(arr, guess) {
 }
 
 function letterAppear(arr1, arr2, guess) {
-    for (var i = 0; i <= arr1.length; i ++){
+    for (var i = 0; i <= arr1.length; i++) {
         while (arr2.indexOf(guess) != -1) {
             var index = arr2.indexOf(guess);
             arr2.splice(index, 1, "/");
             arr1.splice(index, 1, guess);
         }
     }
-    return arr1; 
+    return arr1;
 }
 
 application.listen(3000);
