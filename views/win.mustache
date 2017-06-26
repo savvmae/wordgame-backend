@@ -10,7 +10,15 @@
         <button class="submit" type="submit">Add</button>  
         </form>
         <div class="center-wrapper">
-        <a class="play" href="/">Would you like to play again?</a>
+            {{#nameError}}
+            <p>{{.}}</p>
+            {{/nameError}}
+        </div>
+        <div class="center-wrapper">
+        <form method="POST" action="/reset">
+             <button class="play submit" type="submit">Would you like to play again?</button>   
+        </form>
+        </div>
         </div>
     </body>
 </html>

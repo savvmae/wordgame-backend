@@ -14,7 +14,7 @@
             <input type="text" name="guess" autofocus class="guess">
             <button type="submit" class="submit">Guess Letter</button>
         </form>
-
+        {{newWord}}
        {{#error}} <p>{{.}} </p>{{/error}}
        <div class="word-wrapper">
            <div class="word-revealer dashes">

@@ -6,7 +6,10 @@
     <body>
         <p class="title center-flex">You lost. the word was {{newWord}}</p>
         <div class="center-wrapper">
-        <a class="play" href="/">Would you like to play again?</a>
+            <form method="POST" action="/reset">
+             <button class="play submit" type="submit">Would you like to play again?</button>   
+            </form>
+        
         </div>
     </body>
 </html>
