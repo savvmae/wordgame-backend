@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const game = require('../models/game');
 
-
 router.get('/game', (request, response) => {
     if (!request.session.finished) {
         var game = request.session;
@@ -12,8 +11,6 @@ router.get('/game', (request, response) => {
     }
 
 });
-
-
 
 router.post('/game', (request, response) => {
     if (!request.session.finished) {
